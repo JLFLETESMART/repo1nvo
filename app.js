@@ -1,5 +1,9 @@
 const STORAGE_KEY = "aviator-rounds";
 const OCR_INTERVAL_MS = 3500;
+const RECENT_ROUNDS_COUNT = 10;
+const BET_THRESHOLD = 2;
+const MIN_ROUNDS_FOR_RECOMMENDATION = 3;
+const MAX_DISPLAYED_ROUNDS = 30;
 
 const startBtn = document.getElementById("startBtn");
 const stopBtn = document.getElementById("stopBtn");
@@ -137,16 +141,17 @@ function loadRounds() {
 }
 
 function updateRecommendation() {
-  if (rounds.length < 3) {
-    recommendation.textContent = "Aún sin suficientes rondas (mínimo 3).";
+  // Estrategia base: con muy pocos datos no recomienda. Luego usa promedio corto reciente.
+  if (rounds.length < MIN_ROUNDS_FOR_RECOMMENDATION) {
+    recommendation.textContent = `Aún sin suficientes rondas (mínimo ${MIN_ROUNDS_FOR_RECOMMENDATION}).`;
     return;
   }
 
-  const recent = rounds.slice(-10);
+  const recent = rounds.slice(-RECENT_ROUNDS_COUNT);
   const avg = recent.reduce((sum, round) => sum + round.value, 0) / recent.length;
 
   recommendation.textContent =
-    avg >= 2
+    avg >= BET_THRESHOLD
       ? `APOSTAR (promedio reciente: ${avg.toFixed(2)}x)`
       : `NO APOSTAR (promedio reciente: ${avg.toFixed(2)}x)`;
 }
@@ -164,7 +169,7 @@ function renderHistory() {
   rounds
     .slice()
     .reverse()
-    .slice(0, 30)
+    .slice(0, MAX_DISPLAYED_ROUNDS)
     .forEach((round) => {
       const li = document.createElement("li");
       const stamp = new Date(round.capturedAt).toLocaleString();
