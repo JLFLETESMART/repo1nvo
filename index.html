@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Predictor con captura de pantalla</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  </head>
+  <body>
+    <main>
+      <h1>Captura en vivo + historial de rondas</h1>
+      <p>
+        Inicia la captura de tu pantalla, selecciona la zona de resultado y el sistema intentará
+        leer el valor de cada ronda para guardarlo y sugerir <strong>apostar</strong> o
+        <strong>no apostar</strong>.
+      </p>
+
+      <section class="controls">
+        <button id="startBtn">Iniciar captura</button>
+        <button id="stopBtn" disabled>Detener</button>
+        <button id="clearBtn">Limpiar historial</button>
+      </section>
+
+      <section class="preview-wrapper">
+        <video id="preview" autoplay muted playsinline></video>
+        <canvas id="captureCanvas"></canvas>
+      </section>
+
+      <section class="status-grid">
+        <article>
+          <h2>Último texto detectado</h2>
+          <p id="lastText">Sin lectura todavía.</p>
+        </article>
+        <article>
+          <h2>Último multiplicador</h2>
+          <p id="lastRound">Sin ronda detectada.</p>
+        </article>
+        <article>
+          <h2>Recomendación</h2>
+          <p id="recommendation">Esperando datos…</p>
+        </article>
+      </section>
+
+      <section>
+        <h2>Historial guardado (localStorage)</h2>
+        <ul id="history"></ul>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
