@@ -58,7 +58,7 @@ async function startCapture() {
     runOCR();
     ocrTimer = setInterval(runOCR, OCR_INTERVAL_MS);
   } catch (error) {
-    lastText.textContent = `No se pudo iniciar captura: ${error?.message ?? "error desconocido"}. Verifica permisos de pantalla y usa Chrome/Edge.`;
+    lastText.textContent = `No se pudo iniciar captura: ${error?.message ?? "error desconocido"}. Verifica permisos de pantalla y usa un navegador compatible.`;
   }
 }
 
@@ -107,7 +107,7 @@ async function runOCR() {
 
     lastRound.textContent = `${multiplier.toFixed(2)}x`;
   } catch (error) {
-    lastText.textContent = `Error OCR: ${error?.message ?? "error desconocido"}. Asegura que el multiplicador sea visible y grande en pantalla.`;
+    lastText.textContent = `Error al procesar imagen: ${error?.message ?? "error desconocido"}. Verifica que el multiplicador sea visible y revisa la consola para más detalles.`;
   }
 }
 
