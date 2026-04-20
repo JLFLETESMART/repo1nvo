@@ -1,4 +1,4 @@
-const STORAGE_KEY = "aviator-rounds";
+const STORAGE_KEY = "multiplier-rounds";
 const OCR_INTERVAL_MS = 3500;
 const RECENT_ROUNDS_COUNT = 10;
 const BET_THRESHOLD = 2;
@@ -58,7 +58,7 @@ async function startCapture() {
     runOCR();
     ocrTimer = setInterval(runOCR, OCR_INTERVAL_MS);
   } catch (error) {
-    lastText.textContent = `No se pudo iniciar captura: ${error?.message ?? "error desconocido"}`;
+    lastText.textContent = `No se pudo iniciar captura: ${error?.message ?? "error desconocido"}. Verifica permisos de pantalla y usa Chrome/Edge.`;
   }
 }
 
@@ -107,7 +107,7 @@ async function runOCR() {
 
     lastRound.textContent = `${multiplier.toFixed(2)}x`;
   } catch (error) {
-    lastText.textContent = `Error OCR: ${error?.message ?? "error desconocido"}`;
+    lastText.textContent = `Error OCR: ${error?.message ?? "error desconocido"}. Asegura que el multiplicador sea visible y grande en pantalla.`;
   }
 }
 
