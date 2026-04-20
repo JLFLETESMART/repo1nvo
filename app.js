@@ -1,6 +1,7 @@
 const STORAGE_KEY = "multiplier-rounds";
 const OCR_INTERVAL_MS = 3500;
 const RECENT_ROUNDS_COUNT = 10;
+// Recommend betting only when recent average multiplier stays at or above this level.
 const BET_THRESHOLD = 2;
 const MIN_ROUNDS_FOR_RECOMMENDATION = 3;
 const MAX_DISPLAYED_ROUNDS = 30;
@@ -85,6 +86,7 @@ async function runOCR() {
 
   try {
     const { data } = await Tesseract.recognize(canvas, "eng", {
+      // Keep UI clean by disabling OCR progress logs in normal runtime use.
       logger: () => {},
     });
 
@@ -141,7 +143,7 @@ function loadRounds() {
 }
 
 function updateRecommendation() {
-  // Estrategia base: con muy pocos datos no recomienda. Luego usa promedio corto reciente.
+  // Base strategy: wait for minimal data, then decide from a short recent average window.
   if (rounds.length < MIN_ROUNDS_FOR_RECOMMENDATION) {
     recommendation.textContent = `Aún sin suficientes rondas (mínimo ${MIN_ROUNDS_FOR_RECOMMENDATION}).`;
     return;
